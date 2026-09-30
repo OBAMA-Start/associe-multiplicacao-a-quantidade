@@ -1,0 +1,92 @@
+"<!DOCTYPE html>
+<html lang=""pt-BR"">
+<head>
+    <meta charset=""UTF-8"">
+    <title>Associe a Multiplicação à Quantidade</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .coluna {
+            margin: 0 40px;
+        }
+        .item, .dropzone {
+            border: 2px dashed #ccc;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            cursor: grab;
+            font-size: 18px;
+            min-width: 120px;
+        }
+        .dropzone.hovered {
+            background-color: #d1ffd1;
+        }
+    </style>
+</head>
+<body>
+<h2>Associe a Multiplicação à Quantidade de Figuras</h2>
+<div class=""container"">
+<!-- Multiplicações -->
+<div class=""coluna"" id=""multiplicacoes"">
+<div class=""item"" draggable=""true"" data-valor=""6"">2 x 3</div>
+<div class=""item"" draggable=""true"" data-valor=""4"">1 x 4</div>
+<div class=""item"" draggable=""true"" data-valor=""9"">3 x 3</div>
+<div class=""item"" draggable=""true"" data-valor=""10"">2 x 5</div>
+<div class=""item"" draggable=""true"" data-valor=""8"">4 x 2</div>
+</div>
+
+<!-- Figuras (alvo) -->
+<div class=""coluna"" id=""figuras"">
+<div class=""dropzone"" data-valor=""4"">⬛⬛⬛⬛</div>
+<div class=""dropzone"" data-valor=""6"">⭐⭐⭐⭐⭐⭐</div>
+<div class=""dropzone"" data-valor=""8"">🔷🔷🔷🔷🔷🔷🔷🔷</div>
+<div class=""dropzone"" data-valor=""9"">🔺🔺🔺🔺🔺🔺🔺🔺🔺</div>
+<div class=""dropzone"" data-valor=""10"">🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩</div>
+</div>
+</div>
+
+<script>
+    const items = document.querySelectorAll('.item');
+    const dropzones = document.querySelectorAll('.dropzone');
+
+    items.forEach(item => {
+        item.addEventListener('dragstart', () => {
+            item.classList.add('dragging');
+        });
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+        });
+    });
+
+    dropzones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.classList.add('hovered');
+        });
+
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('hovered');
+        });
+
+        zone.addEventListener('drop', () => {
+            zone.classList.remove('hovered');
+            const draggedItem = document.querySelector('.dragging');
+            if (draggedItem.dataset.valor === zone.dataset.valor) {
+                zone.innerHTML += `<br><strong>✔️ Correto!</strong>`;
+                draggedItem.remove();
+            } else {
+                alert(""❌ Tente novamente!"");
+            }
+        });
+    });
+</script>
+</body>
+</html>
+"
